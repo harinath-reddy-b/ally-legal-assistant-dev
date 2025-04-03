@@ -3,13 +3,14 @@ $schema:
 type: custom
 name: ally
 configs:
-  openai_endpoint: https://gbbailiortestopenai1.openai.azure.com/
+  key1: test1
+  openai_endpoint: https://dev-aoai-ally-legal-assistant.openai.azure.com/
   search_document_index: legal-documents
   search_policy_index: legal-instructions
   openai_model_deployment: gpt4o
   openai_embedding_deployment: ada002
   openai_api_version: 2024-08-01-preview
-  search_endpoint: https://gbbsearchtest1.search.windows.net
+  search_endpoint: https://dev-ais-ally-legal-assistant.search.windows.net
 secrets:
   openai_key: ${env:ALLY_OPENAI_KEY}
   search_key: ${env:ALLY_SEARCH_KEY}

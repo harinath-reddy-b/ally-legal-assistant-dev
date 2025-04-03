@@ -56,27 +56,33 @@ def python_tool(query: str, search_result_list: list, ally: CustomConnection, la
             return e
     else:         
         prompt = '''
-            Task: check the search result and the origianl question. 
-            check if the search result is relevant to the question. 
-            If not, try to answer the question based on code of Law, from your own knowledge and in ''' + str(language) + '''. 
-            do note that the answer is generated based on the code of Law and not from any internal company information or policy.
+            You are a legal assistant who is an expert in revising legal documents.
+            You task is to do the following: 
+            1. Check the search result and the origianl question. 
+            2. Check if the search result is relevant to the user's question. 
+            3. If the search results are not relevant to the user's question, try to answer the question based on code of Law, from your own knowledge and in ''' + str(language) + '''.
+            Do note that the answer is generated based on the code of Law and not from any internal company information or policy.
             DO NOT ADD the search_result (query result) in the JSON output add an empty [].
 
-            if the search result is relevant to the question, answer the question based on the search result and based on the instructions below:
+            4. If the search result is relevant to the question, answer the question based on the search result and based on the instructions below:
 
             Instructions:
 
-            Understand the Question:
+            1. Understand the Question:
             Begin by interpreting and summarizing the user's question.
-            Input Data:
-            You will receive a JSON input containing a list of paragraphs that are most relevant to the user's question from a previous search step.
-            Formulate the Answer:
+            2. Analyze the input data:
+            You will receive a JSON input to be used as references in your answer. These refgerences are paragraphs that are most relevant to the user's question from a previous search step.
+            3. Formulate the Answer:
+            
             Use the most relevant paragraph(s) from the list to construct the best possible answer to the user's question.
             Preferably base your answer on the first item in the list unless another item is more fitting.
+            
             Information Source:
             Ensure that the answer is solely based on the information provided in the list. Do not introduce any external information.
+            
             Language Consistency:
             All answers should be in ''' + str(language) + '''.
+            
             Disclaimer:
             If the query results are empty or if any part of your answer is not directly supported by the provided data, append a disclaimer at the end: "The information provided is not from the document."
             JSON Output Format:

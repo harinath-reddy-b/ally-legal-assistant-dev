@@ -5,12 +5,12 @@ from azure.search.documents import SearchClient
 from azure.search.documents.models import VectorizedQuery
 
 @tool
-def search_doc_tool(query: str, embedinginput: list, searchconnection: CustomConnection, filename: str, groups: str) -> object:
-    search_endpoint = searchconnection.search_endpoint
-    search_index = searchconnection.search_document_index
-    search_key = searchconnection.search_key
+def search_doc_tool(query: str, embedinginput: list, ally: CustomConnection, filename: str, groups: str) -> object:
+    search_endpoint = ally.search_endpoint
+    search_index = ally.search_document_index
+    search_key = ally.search_key
 
-    vector_query = VectorizedQuery(kind="vector", vector=embedinginput, k_nearest_neighbors=20, fields="embedding", exhaustive=True)
+    vector_query = VectorizedQuery(kind="vector", vector=embedinginput, k_nearest_neighbors=50, fields="embedding", exhaustive=True)
 
     search_client = SearchClient(search_endpoint, search_index, AzureKeyCredential(search_key))
     file_filter = "filename eq '{}'".format(filename)
@@ -25,7 +25,7 @@ def search_doc_tool(query: str, embedinginput: list, searchconnection: CustomCon
         filter=filter,
         vector_queries=[vector_query],
         select="*",  # Include the fields in the result
-        top=3,  # Increase the number of results returned
+        top=10,  # Increase the number of results returned
     )
     policy_list = []
     for result in results:

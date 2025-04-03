@@ -1,5 +1,5 @@
 from promptflow.core import tool
-from promptflow.connections import AzureOpenAIConnection, CustomConnection
+from promptflow.connections import CustomConnection
 from pydantic import BaseModel 
 from openai import AzureOpenAI  
 from typing import List  
