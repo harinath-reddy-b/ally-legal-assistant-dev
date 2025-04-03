@@ -41,8 +41,10 @@ export async function ask() {
           
           // convert JSON.parse(localStorage.getItem('groups')) to string
           const groups = JSON.parse(localStorage.getItem('groups')).toString();
+          // Supply the filename to promptflow endpoint so AI Search can get citations for the document that is opened
+          const filename = localStorage.getItem('filename');
 
-          const response = await fetchData(pfendpoint, query, language, groups);  
+          const response = await fetchData(pfendpoint, query, filename, language, groups);  
           console.log("Response: ", response);
           const data = await response.json();  
           displaySearchResults(data.answer);  
@@ -62,7 +64,7 @@ function createSpinner() {
 }  
 
 // Fetch data from API  
-async function fetchData(endpoint, query, language, groups) {  
+async function fetchData(endpoint, query, filename, language, groups) {  
   console.log("Entered fetchData function with the next parameters: ");
   console.log("Endpoint: ", endpoint);
   console.log("Query: ", query);
@@ -79,7 +81,8 @@ async function fetchData(endpoint, query, language, groups) {
           query_type: 3,
           question: query,  
           language: language,
-          groups: groups
+          groups: groups,
+          filename: filename
       })  
   });  
 }  

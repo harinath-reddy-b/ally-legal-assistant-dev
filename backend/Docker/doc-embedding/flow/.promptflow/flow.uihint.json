@@ -1,0 +1,28 @@
+{
+  "nodes": {
+    "check_ifindexed": {
+      "variant_0": {
+        "inputs": {
+          "filename": []
+        }
+      }
+    },
+    "chunk_data": {
+      "variant_0": {
+        "inputs": {
+          "body": [],
+          "filename": [],
+          "body_text": []
+        }
+      }
+    },
+    "add_2_index": {
+      "variant_0": {
+        "inputs": {
+          "input": [],
+          "filename": []
+        }
+      }
+    }
+  }
+}

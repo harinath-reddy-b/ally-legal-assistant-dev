@@ -16,6 +16,7 @@ fetch("assets/config.json")
     console.log("Config: ", text);
     const config = JSON.parse(text);
     localStorage.setItem('pfendpoint', config['prompt-flow-endpoint']);
+    localStorage.setItem('pfembeddingendpoint', config['doc-embedding-endpoint']);
     localStorage.setItem('pfconfigendpoint', config['prompt-flow-config-endpoint']);
     localStorage.setItem('clientId', config['clientId']);
     localStorage.setItem('authority', config['authority']);
@@ -159,7 +160,6 @@ function showErrorMessage(message) {
 
 }
 
-
 export async function reset_cache() {
   localStorage.removeItem('FullSummaryData');
   localStorage.removeItem('groups');
@@ -167,19 +167,47 @@ export async function reset_cache() {
   showSuccessMessage("Cache has been reset successfully");
 }
 
-
-// Index document function - Demo now but will be implemented in the future with Azure Search, Prompt Flow
+// Index document function - If the document is not indexed, you can do so directly from Word now
 export async function index_document() {
-  // sleep to 2 seconds
   document.getElementById("index-doc-spinner").style.display = "flex";
-  await new Promise(r => setTimeout(r, 2000));
-  document.getElementById("index-doc-spinner").style.display = "none";
-  
-  // chnage the conainter index-doc-container style to display none
-  var reviewcontainerDiv = document.getElementById("index-doc-container");
-  reviewcontainerDiv.style.display = "none";
 
-  showSuccessMessage("Document has been indexed successfully");
+  // Load the word document body and get the text
+  // TODO: Maybe for large documents we send the text in chunks
+  await Word.run(async (context) => {
+    let body = context.document.body;
+    body.load("text");
+    await context.sync();
+    const documentContent = body.text;
+    console.log("Document content:", documentContent);
+
+    // Index the document contents by calling the pf embedding endpoint
+    fetch(localStorage.getItem("pfembeddingendpoint"), {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        filename: localStorage.getItem('filename'),
+        filepath: "/temp",
+        body_text: documentContent,
+      }),
+    }).then((response) => { 
+      if (response.ok) {
+        document.getElementById("index-doc-spinner").style.display = "none";
+  
+        // chnage the conainter index-doc-container style to display none
+        var reviewcontainerDiv = document.getElementById("index-doc-container");
+        reviewcontainerDiv.style.display = "none";
+
+        showSuccessMessage("Document has been indexed successfully"); 
+      }
+    }).catch((error) => {
+      console.error("Error indexing document:", error);
+
+      showErrorMessage("A document indexing error occurred: " + error);
+    });
+  });
+  
 }
 
 // Function to display a success message on the top ribbon

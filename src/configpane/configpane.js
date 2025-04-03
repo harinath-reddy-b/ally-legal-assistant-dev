@@ -1,4 +1,3 @@
-
 fetch("assets/config.json")
   .then((res) => res.text())
   .then((text) => {
@@ -66,8 +65,32 @@ function showSuccessSaveMessage() {
   setTimeout(() => {
     ribbon.style.display = "none";
   }, 3000); 
-  
 }
+
+const jsonData = {
+  "output": [
+      {
+          "valid": "02/10/2022",
+          "title": "Limitation of Liability",
+          "instruction": "Seller will not be liable under this Contract for more than the Contract Price paid under this Contract during the 12 months before the claim arises.",
+          "locked": true,
+          "author": "Daniel Green",
+          "tags": [
+            "Seller not liable",
+            "Contract Price limit",
+            "12-month"
+          ]
+      },
+      {
+          "valid": "25/10/2024",
+          "title": "Governing Law",
+          "instruction": "All contracts in the company must be governed by the laws of the state of Delaware.",
+          "locked": false,
+          "author": "Lior Armiev",
+          "tags": ["Delaware", "Governing Law"]
+      }
+  ]
+};
 
 function displayJSONOutputWithTags() {
   const container = document.getElementById("policy-container"); // Target your specific container
@@ -75,31 +98,6 @@ function displayJSONOutputWithTags() {
       console.error("Result container not found");
       return;
   }
-
-  const jsonData = {
-    "output": [
-        {
-            "valid": "02/10/2022",
-            "title": "Limitation of Liability",
-            "instruction": "Seller will not be liable under this Contract for more than the Contract Price paid under this Contract during the 12 months before the claim arises.",
-            "locked": true,
-            "author": "Daniel Green",
-            "tags": [
-              "Seller not liable",
-              "Contract Price limit",
-              "12-month"
-            ]
-        },
-        {
-            "valid": "25/10/2024",
-            "title": "Governing Law",
-            "instruction": "All contracts in the company must be governed by the laws of the state of Delaware.",
-            "locked": false,
-            "author": "Lior Armiev",
-            "tags": ["Delaware", "Governing Law"]
-        }
-    ]
-};
 
   container.innerHTML = ""; // Clear any existing content
 
@@ -224,12 +222,101 @@ addPolicyButton.style.bottom = "20px";
 addPolicyButton.style.left = "50%";
 addPolicyButton.style.transform = "translateX(-50%)";
 document.body.appendChild(addPolicyButton);
-addPolicyButton.addEventListener("click", () => {
-  const container = document.getElementById("policy-container"); // Target your specific container
-  if (!container) {
-      console.error("Result container not found");
-      return;
-  }}
-)
+addPolicyButton.addEventListener("click", () =>
+  {
+    const container = document.getElementById("policy-container"); // Target your specific container
+    if (!container) {
+        console.error("Result container not found");
+        return;
+    }
+    // Clear container
+  container.innerHTML = "";
+
+  // Title input
+  const titleLabel = document.createElement("label");
+  titleLabel.textContent = "Policy Title:";
+  titleLabel.classList.add("output-title");
+  const titleInput = document.createElement("input");
+  titleInput.style.display = "block";
+  titleInput.type = "text";
+  titleInput.id = "new-policy-title";
+
+  // Instruction input
+  const labelContainer = document.createElement("div");
+  const instructionLabel = document.createElement("label");
+  instructionLabel.textContent = "Policy Instruction:";
+  instructionLabel.classList.add("output-title");
+  const instructionInput = document.createElement("textarea");
+  instructionInput.id = "new-policy-instruction";
+  instructionInput.classList.add("instruction-textarea");
+  instructionInput.style.resize = "vertical";
+  labelContainer.appendChild(instructionLabel);
+  labelContainer.appendChild(instructionInput);
+
+  // Locked checkbox
+  const lockedContainer = document.createElement("div");
+  const lockedLabel = document.createElement("label");
+  lockedLabel.textContent = "Locked:";
+  lockedLabel.classList.add("output-title");
+  const lockedCheckbox = document.createElement("input");
+  lockedCheckbox.type = "checkbox";
+  lockedCheckbox.id = "new-policy-locked";
+  lockedContainer.appendChild(lockedLabel);
+  lockedContainer.appendChild(lockedCheckbox);
+
+  // Severity input
+  const severityLabel = document.createElement("label");
+  severityLabel.textContent = "Severity:";
+  severityLabel.classList.add("output-title");
+  const severityInput = document.createElement("input");
+  severityInput.type = "text";
+  severityInput.id = "new-policy-severity";
+
+  // Save button
+  const saveButton = document.createElement("button");
+  saveButton.textContent = "Save";
+  saveButton.classList.add("save-button");
+  saveButton.style.marginTop = "20px";
+  saveButton.style.display = "block";
+  saveButton.addEventListener("click", () => {
+    savePolicy();
+  }
+  );
+
+  // Append all elements
+  container.appendChild(titleLabel);
+  container.appendChild(titleInput);
+  container.appendChild(instructionLabel);
+  container.appendChild(instructionInput);
+  container.appendChild(lockedContainer);
+  container.appendChild(severityLabel);
+  container.appendChild(severityInput);
+  container.appendChild(saveButton);
+  })
 }
 
+function savePolicy() {
+  const title = document.getElementById("new-policy-title").value;
+  const instruction = document.getElementById("new-policy-instruction").value;
+  const locked = document.getElementById("new-policy-locked").checked;
+  const severity = document.getElementById("new-policy-severity").value;
+  const date = new Date();
+
+  // Create a new policy object
+  const newPolicy = {
+    title: title,
+    instruction: instruction,
+    locked: locked,
+    severity: severity,
+    author: "System Default", // You can replace this with the actual author if needed
+    tags: ["Demo policies"],
+    valid: date.toLocaleDateString("en-GB") // Format the date as dd/mm/yyyy
+  };
+
+  // Append the new policy to the existing policies
+  jsonData.output.push(newPolicy); // Replace with saving to AI Search
+
+  // Optionally, you can also save this updated JSON to local storage or send it to a server
+
+  displayJSONOutputWithTags();
+}

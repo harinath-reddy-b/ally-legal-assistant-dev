@@ -77,6 +77,26 @@ export async function document_summary() {
     });
   }
 
+  function showErrorMessage(message) {
+    const sideloadMsg = document.getElementById("sideload-msg");
+  
+    // Update the content of the sideload message
+    sideloadMsg.innerHTML = `<h1>There  been a connection check error</h1><p>The following error occurred: </p><p>${message}</p>`;
+  
+    // Style the error message
+    sideloadMsg.style.display = "block";
+    sideloadMsg.style.backgroundColor = "#ffffff";
+    sideloadMsg.style.padding = "10px";
+    sideloadMsg.style.border = "1px solid #f5c6cb";
+    sideloadMsg.style.borderRadius = "5px";
+  
+    // hide after 5 seconds
+    setTimeout(() => {
+      sideloadMsg.style.display = "none";
+    }, 5000);
+  
+  }
+
   
   // Function to display the summary and paragraph details under "summary-container"
 function displaySummaryData1(policyData) {

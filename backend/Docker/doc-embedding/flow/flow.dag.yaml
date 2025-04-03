@@ -1,0 +1,43 @@
+inputs:
+  filename:
+    type: string
+    default: Non-Disclosure-Agreement-Template-Signaturely.docx
+  body_text:
+    type: string
+    default: Test body text
+  filepath:
+    type: string
+    default: /tmp
+outputs:
+  output:
+    type: string
+    reference: ${add_2_index.output}
+nodes:
+- name: check_ifindexed
+  type: python
+  source:
+    type: code
+    path: check_ifindexed.py
+  inputs:
+    filename: ${inputs.filename}
+    ally: ally
+- name: chunk_data
+  type: python
+  source:
+    type: code
+    path: chunk_data.py
+  inputs:
+    ally: ally
+    body_text: ${inputs.body_text}
+  activate:
+    when: ${check_ifindexed.output}
+    is: 0
+- name: add_2_index
+  type: python
+  source:
+    type: code
+    path: add_2_index.py
+  inputs:
+    input: ${chunk_data.output}
+    filename: ${inputs.filename}
+    ally: ally

@@ -1,0 +1,17 @@
+$schema: 
+  https://azuremlschemas.azureedge.net/promptflow/latest/CustomConnection.schema.json
+type: custom
+name: ally
+configs:
+  key1: test1
+  openai_endpoint: https://openai-legal-assistant.openai.azure.com/
+  search_document_index: legal-documents
+  search_policy_index: legal-instructions
+  openai_model_deployment: gpt4o
+  openai_embedding_deployment: ada002
+  openai_api_version: 2024-08-01-preview
+  search_endpoint: https://search-legal-assistant.search.windows.net
+secrets:
+  openai_key: ${env:ALLY_OPENAI_KEY}
+  search_key: ${env:ALLY_SEARCH_KEY}
+module: promptflow.connections
