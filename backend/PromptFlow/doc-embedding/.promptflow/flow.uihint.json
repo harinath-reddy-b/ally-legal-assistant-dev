@@ -11,7 +11,8 @@
       "variant_0": {
         "inputs": {
           "body": [],
-          "filename": []
+          "filename": [],
+          "body_text": []
         }
       }
     },
