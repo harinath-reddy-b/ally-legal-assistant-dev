@@ -1,5 +1,5 @@
 from promptflow.core import tool
-from promptflow.connections import AzureOpenAIConnection, CustomConnection
+from promptflow.connections import CustomConnection
 from pydantic import BaseModel 
 from openai import AzureOpenAI  
 from typing import List  
@@ -34,23 +34,23 @@ def python_tool(language:str, input_text: str, policy_list: object, ally: Custom
 
 Instructions:
 Sources:
-Use the selected text from the user and a list of relevant policy items as your sources.
+1. Use the selected text from the user and a list of relevant policy items as your sources.
 Title Creation:
-Create a title for the summary based on the user-provided text.
+2. Create a title for the summary based on the user-provided text.
 Summary:
-Provide a concise, professional summary of the selected text.
+3. Provide a concise, professional summary of the selected text.
 Key Notes:
-Extract and list key elements such as dates, numbers, and names from the selected text.
+4. Extract and list key elements such as dates, numbers, and names from the selected text.
 Comparison:
-Compare the user-provided text with the relevant policy items to determine compliance.
+5. Compare the user-provided text with the relevant policy items to determine compliance.
 Suggested Corrections:
-If the text is not compliant, propose a correction. Make precise changes and offer three suggestions for the user to choose from.
+6. If the text is not compliant, propose a correction. Make precise changes and offer three suggestions for the user to choose from.
 Relevant Policy Item:
-Return the text and title of the relevant policy item that matches the selected text.
+7. Return the text and title of the relevant policy item that matches the selected text.
 Language:
-Ensure that all output is in ''' +  language + '''.
+8. Ensure that all output is in ''' +  language + '''.
 JSON Structure:
-Use the following format for the output:
+9. Use the following format for the output: 
 
 {  
   "UserSelection": [  

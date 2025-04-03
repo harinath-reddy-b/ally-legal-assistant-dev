@@ -1,5 +1,5 @@
 from promptflow.core import tool
-from promptflow.connections import AzureOpenAIConnection, CustomConnection
+from promptflow.connections import CustomConnection
 from pydantic import BaseModel 
 from openai import AzureOpenAI
 from azure.search.documents import SearchClient
@@ -38,15 +38,15 @@ def python_tool(input_text: str, ally:CustomConnection) -> object:
     for result in results:
         #title,paragraph,keyphrases,summary,isCompliant,CompliantCollection,NonCompliantCollection
         # if is compliant false read the NonCompliantCollection list and run the get_policyinfo function
-        if result["isCompliant"] == False:
+        if result["isCompliant"] is False:
             policylist = []
             for policyid in result["NonCompliantCollection"]:
                 # log into promptflow a warning                
                 policy = get_policyinfo(policyid,ally)
                 policylist.append(policy)
-            list.append({"title": result["title"], "summary": result["summary"], "keyphrases": result["keyphrases"], "summary": result["summary"], "isCompliant": result["isCompliant"], "CompliantCollection": result["CompliantCollection"], "NonCompliantCollection": result["NonCompliantCollection"], "NonCompliantPolicies": policylist})           
+            list.append({"title": result["title"], "summary": result["summary"], "keyphrases": result["keyphrases"], "isCompliant": result["isCompliant"], "CompliantCollection": result["CompliantCollection"], "NonCompliantCollection": result["NonCompliantCollection"], "NonCompliantPolicies": policylist})           
         else:    
-            list.append({"title": result["title"], "summary": result["summary"], "keyphrases": result["keyphrases"], "summary": result["summary"], "isCompliant": result["isCompliant"], "CompliantCollection": result["CompliantCollection"], "NonCompliantCollection": result["NonCompliantCollection"]})
+            list.append({"title": result["title"], "summary": result["summary"], "keyphrases": result["keyphrases"], "isCompliant": result["isCompliant"], "CompliantCollection": result["CompliantCollection"], "NonCompliantCollection": result["NonCompliantCollection"]})
     print(list)
     return list
 
