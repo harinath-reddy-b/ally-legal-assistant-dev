@@ -9,7 +9,7 @@
             "string"
           ]
         },
-        "searchconnection": {
+        "ally": {
           "type": [
             "CustomConnection"
           ]
@@ -21,19 +21,14 @@
     "chunk_data.py": {
       "type": "python",
       "inputs": {
-        "body": {
+        "body_text": {
           "type": [
             "string"
           ]
         },
-        "filename": {
+        "ally": {
           "type": [
-            "string"
-          ]
-        },
-        "openai": {
-          "type": [
-            "AzureOpenAIConnection"
+            "CustomConnection"
           ]
         }
       },
@@ -53,14 +48,9 @@
             "list"
           ]
         },
-        "searchconnection": {
+        "ally": {
           "type": [
             "CustomConnection"
-          ]
-        },
-        "openai": {
-          "type": [
-            "AzureOpenAIConnection"
           ]
         }
       },

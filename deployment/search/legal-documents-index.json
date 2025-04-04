@@ -1,0 +1,224 @@
+{
+    "name": "legal-documents",
+    "fields": [
+        {
+            "name": "id",
+            "type": "Edm.String",
+            "searchable": false,
+            "filterable": false,
+            "retrievable": true,
+            "stored": true,
+            "sortable": false,
+            "facetable": false,
+            "key": true,
+            "synonymMaps": []
+        },
+        {
+            "name": "title",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "retrievable": true,
+            "stored": true,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "analyzer": "standard.lucene",
+            "synonymMaps": []
+        },
+        {
+            "name": "paragraph",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "retrievable": true,
+            "stored": true,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "analyzer": "standard.lucene",
+            "synonymMaps": []
+        },
+        {
+            "name": "keyphrases",
+            "type": "Collection(Edm.String)",
+            "searchable": true,
+            "filterable": true,
+            "retrievable": true,
+            "stored": true,
+            "sortable": false,
+            "facetable": true,
+            "key": false,
+            "analyzer": "standard.lucene",
+            "synonymMaps": []
+        },
+        {
+            "name": "summary",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "retrievable": true,
+            "stored": true,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "analyzer": "standard.lucene",
+            "synonymMaps": []
+        },
+        {
+            "name": "embedding",
+            "type": "Collection(Edm.Single)",
+            "searchable": true,
+            "filterable": false,
+            "retrievable": true,
+            "stored": true,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "dimensions": 1536,
+            "vectorSearchProfile": "legal-doc-vector-profile-embedding",
+            "synonymMaps": []
+        },
+        {
+            "name": "filename",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": true,
+            "retrievable": true,
+            "stored": true,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "analyzer": "standard.lucene",
+            "synonymMaps": []
+        },
+        {
+            "name": "department",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": true,
+            "retrievable": true,
+            "stored": true,
+            "sortable": false,
+            "facetable": true,
+            "key": false,
+            "analyzer": "standard.lucene",
+            "synonymMaps": []
+        },
+        {
+            "name": "date",
+            "type": "Edm.DateTimeOffset",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "stored": true,
+            "sortable": true,
+            "facetable": false,
+            "key": false,
+            "synonymMaps": []
+        },
+        {
+            "name": "group",
+            "type": "Collection(Edm.String)",
+            "searchable": true,
+            "filterable": true,
+            "retrievable": true,
+            "stored": true,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "analyzer": "standard.lucene",
+            "synonymMaps": []
+        },
+        {
+            "name": "isCompliant",
+            "type": "Edm.Boolean",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "stored": true,
+            "sortable": true,
+            "facetable": true,
+            "key": false,
+            "synonymMaps": []
+        },
+        {
+            "name": "CompliantCollection",
+            "type": "Collection(Edm.String)",
+            "searchable": true,
+            "filterable": true,
+            "retrievable": true,
+            "stored": true,
+            "sortable": false,
+            "facetable": true,
+            "key": false,
+            "analyzer": "standard.lucene",
+            "synonymMaps": []
+        },
+        {
+            "name": "NonCompliantCollection",
+            "type": "Collection(Edm.String)",
+            "searchable": true,
+            "filterable": true,
+            "retrievable": true,
+            "stored": true,
+            "sortable": false,
+            "facetable": true,
+            "key": false,
+            "analyzer": "standard.lucene",
+            "synonymMaps": []
+        },
+        {
+            "name": "ParagraphId",
+            "type": "Edm.Int32",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "stored": true,
+            "sortable": true,
+            "facetable": true,
+            "key": false,
+            "synonymMaps": []
+        }
+    ],
+    "scoringProfiles": [],
+    "suggesters": [],
+    "analyzers": [],
+    "tokenizers": [],
+    "tokenFilters": [],
+    "charFilters": [],
+    "similarity": {
+        "@odata.type": "#Microsoft.Azure.Search.BM25Similarity"
+    },
+    "vectorSearch": {
+        "algorithms": [
+            {
+                "name": "vector-config-1727624514123",
+                "kind": "exhaustiveKnn",
+                "exhaustiveKnnParameters": {
+                    "metric": "cosine"
+                }
+            }
+        ],
+        "profiles": [
+            {
+                "name": "legal-doc-vector-profile-embedding",
+                "algorithm": "vector-config-1727624514123",
+                "vectorizer": "vectorizer-1727624514123"
+            }
+        ],
+        "vectorizers": [
+            {
+                "name": "vectorizer-1727624514123",
+                "kind": "azureOpenAI",
+                "azureOpenAIParameters": {
+                    "resourceUri": "your-resource-uri",
+                    "deploymentId": "ada002",
+                    "apiKey": "your_resource_api_key",
+                    "modelName": "text-embedding-ada-002"
+                }
+            }
+        ],
+        "compressions": []
+    }
+}

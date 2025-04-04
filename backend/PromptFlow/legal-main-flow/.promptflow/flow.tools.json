@@ -209,7 +209,7 @@
             "list"
           ]
         },
-        "searchconnection": {
+        "ally": {
           "type": [
             "CustomConnection"
           ]
@@ -285,7 +285,7 @@
             "list"
           ]
         },
-        "searchconnection": {
+        "ally": {
           "type": [
             "CustomConnection"
           ]

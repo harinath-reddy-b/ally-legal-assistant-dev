@@ -2,7 +2,6 @@ from promptflow.core import tool
 from promptflow.connections import CustomConnection
 from pydantic import BaseModel 
 from openai import AzureOpenAI  
-from typing import List  
 import json
 
 class AskResponse(BaseModel):
@@ -56,29 +55,38 @@ def python_tool(query: str, search_result_list: list, ally: CustomConnection, la
             return e
     else:         
         prompt = '''
-            Task: check the search result and the origianl question. 
-            check if the search result is relevant to the question. 
-            If not, try to answer the question based on code of Law, from your own knowledge and in ''' + str(language) + '''. 
-            do note that the answer is generated based on the code of Law and not from any internal company information or policy.
-            DO NOT ADD the search_result (query result) in the JSON output add an empty [].
+            You are a legal assistant who is an expert in revising legal documents.
+            You will receive a list of search results that represent parts or all of a legal document.
+            Your task is to do the following: 
+            1. Check the search result and the origianl user question. 
+            2. Check if the search result is relevant to the user's question. 
+            3. If the search results are not relevant to the user's question, try to answer the question based on code of Law, from your own knowledge and in ''' + str(language) + '''.
+            Do note that the answer is generated based on the code of Law and not from any internal company information or policy.
+            DO NOT ADD the search_result in the JSON output add an empty [].
 
-            if the search result is relevant to the question, answer the question based on the search result and based on the instructions below:
+            4. If the search result is relevant to the question, answer the question based on the search result and based on the instructions below:
 
             Instructions:
 
-            Understand the Question:
-            Begin by interpreting and summarizing the user's question.
-            Input Data:
-            You will receive a JSON input containing a list of paragraphs that are most relevant to the user's question from a previous search step.
-            Formulate the Answer:
-            Use the most relevant paragraph(s) from the list to construct the best possible answer to the user's question.
-            Preferably base your answer on the first item in the list unless another item is more fitting.
+            1. Understand the user's question: Begin by interpreting and summarizing the user's question.
+            2. Analyze the input data: You will receive a JSON input list of search results to be used as references in your answer. These references are paragraphs of a legal document that are most relevant to the user's question from a previous search step.
+            3. Formulate the Answer:
+            
+            Use one or more relevant references from the list to construct the best possible answer to the user's question.
+            The first reference in the list is considered to be the most relevant to the user's questions.
+            If you think that one reference is not enough to answer the question, you can use more than one reference from the list.
+
+            4. Provide the Answer:
+            The answer should be a concise and clear response to the user's question using the tone and personality of a legal assistant.
+            
             Information Source:
             Ensure that the answer is solely based on the information provided in the list. Do not introduce any external information.
+            
             Language Consistency:
             All answers should be in ''' + str(language) + '''.
+            
             Disclaimer:
-            If the query results are empty or if any part of your answer is not directly supported by the provided data, append a disclaimer at the end: "The information provided is not from the document."
+            If the search results are empty or if any part of your answer is not directly supported by the provided data, append a disclaimer at the end: "The information provided is not from the document."
             JSON Output Format:
 
             {  
@@ -87,8 +95,8 @@ def python_tool(query: str, search_result_list: list, ally: CustomConnection, la
             "marked_text": "The marked text from the paragraph answer_source that is most relevant to the answer as a single string, must be less than 10 words, and be the exact words with no change",
             "search_result": [  
                 {  
-                "title": "Title from search result",  
-                "summary": "Summary from search result",  
+                "title": "Title from search results",  
+                "summary": "Summary from search results",  
                 "keyphrases": ["keyphrase1", "keyphrase2"]  
                 }  
             ]  
@@ -96,7 +104,7 @@ def python_tool(query: str, search_result_list: list, ally: CustomConnection, la
 
         user_input = '''
         user question: ''' + str(query) + '''
-        query result: ''' + str(search_result_list)
+        search result: ''' + str(search_result_list)
 
         openai_response = client.beta.chat.completions.parse(  
             model=ally.openai_model_deployment,  

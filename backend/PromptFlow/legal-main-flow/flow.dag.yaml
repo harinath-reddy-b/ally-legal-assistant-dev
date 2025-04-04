@@ -9,27 +9,19 @@ inputs:
   question:
     type: string
     is_chat_input: true
-    default: "(a)\tThe Contract shall be governed by and construed in accordance
-      with the laws of Singapore, without reference to its conflict of laws
-      rules.    (b)\tFor Purchase Orders issued to Sellers incorporated in
-      Singapore, unless otherwise specified in the Purchase Order, the parties
-      submit to the jurisdiction of the courts of Singapore. "
+    default: Explain the services overview section to me and who is the client
   query_type:
     type: int
-    default: 2
+    default: 3
   group:
     type: list
-    default:
-    - 22a229bd-c7a2-49d0-9eaa-e1fc888daac6
-    - 2846190d-05dc-4048-90bc-7e236f34d84b
-    - 62edbd7b-8d46-4d2c-a5a1-da5b78ba1d38
-    - be8ca378-bc74-46c1-b922-e7f552486ede
+    default: []
   language:
     type: string
     default: English
   filename:
     type: string
-    default: contract-for-the-purchase-of-goods-and-services.docx
+    default: SoW-PAD-Governance-Definition-And-Amendments.docx
 outputs:
   answer:
     type: string
@@ -72,10 +64,10 @@ nodes:
     type: code
     path: search_policy.py
   inputs:
-    searchconnection: ally
     embeding: ${python_text_embedding_search.output}
     query: ${inputs.question}
     groups: ${inputs.group}
+    ally: ally
 - name: aggregation
   type: python
   source:
@@ -105,11 +97,11 @@ nodes:
     type: code
     path: search_doc.py
   inputs:
-    searchconnection: ally
     embedinginput: ${python_text_embedding.output}
     query: ${inputs.question}
     filename: ${inputs.filename}
     groups: ${inputs.group}
+    ally: ally
 - name: ask_result_format
   type: python
   source:
@@ -155,9 +147,3 @@ nodes:
   activate:
     when: ${inputs.query_type}
     is: 99
-- name: prompt_node_9e7r
-  type: prompt
-  source:
-    type: code
-    path: prompt_node_9e7r.jinja2
-  inputs: {}
