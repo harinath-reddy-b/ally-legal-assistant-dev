@@ -15,10 +15,10 @@ class SummaryResponse(BaseModel):
         relevant_policy_item: str
         corrected_text: List[str]
 
-    PolicyItems: list[PolicyItem]
+    UserSelection: list[PolicyItem]
 
 @tool
-def python_tool(language:str, input_text: str, policy_list: object, ally: CustomConnection):
+def python_tool(language:str, input_text: str, policy_list: List, ally: CustomConnection):
     
     if len(policy_list) == 0:
         return {"warning": "No policy items found."}

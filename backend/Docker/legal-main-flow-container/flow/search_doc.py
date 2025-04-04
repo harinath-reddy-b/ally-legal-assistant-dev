@@ -25,7 +25,7 @@ def search_doc_tool(query: str, embedinginput: list, ally: CustomConnection, fil
         filter=filter,
         vector_queries=[vector_query],
         select="*",  # Include the fields in the result
-        top=10,  # Increase the number of results returned
+        top=15,  # Increase the number of results returned
     )
     policy_list = []
     for result in results:

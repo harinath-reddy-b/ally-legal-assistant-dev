@@ -82,10 +82,30 @@ export async function summary() {
           // Hide the spinner in case of an error  
           if (contspinner) {  
               contspinner.style.display = "none";  
-          }  
+          }
+          showErrorMessage(error);
       }  
   });  
-}  
+}
+function showErrorMessage(message) {
+    const sideloadMsg = document.getElementById("sideload-msg");
+  
+    // Update the content of the sideload message
+    sideloadMsg.innerHTML = `<h1>The following error occurred: </h1><p>${message}</p>`;
+  
+    // Style the error message
+    sideloadMsg.style.display = "block";
+    sideloadMsg.style.backgroundColor = "#ffffff";
+    sideloadMsg.style.padding = "10px";
+    sideloadMsg.style.border = "1px solid #f5c6cb";
+    sideloadMsg.style.borderRadius = "5px";
+  
+    // hide after 5 seconds
+    setTimeout(() => {
+      sideloadMsg.style.display = "none";
+    }, 10000);
+  
+}
 
 // Display a message when no text is selected  
 function displayNoTextSelectedMessage() {  

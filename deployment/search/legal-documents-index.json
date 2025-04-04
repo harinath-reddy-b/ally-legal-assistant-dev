@@ -193,26 +193,23 @@
     "vectorSearch": {
         "algorithms": [
             {
-                "name": "vector-config-ally-legal",
-                "kind": "hnsw",
-                "hnswParameters": {
-                    "metric": "cosine",
-                    "m": 4,
-                    "efConstruction": 400,
-                    "efSearch": 500
+                "name": "vector-config-1727624514123",
+                "kind": "exhaustiveKnn",
+                "exhaustiveKnnParameters": {
+                    "metric": "cosine"
                 }
             }
         ],
         "profiles": [
             {
                 "name": "legal-doc-vector-profile-embedding",
-                "algorithm": "vector-config-ally-legal",
-                "vectorizer": "vectorizer-ally-legal"
+                "algorithm": "vector-config-1727624514123",
+                "vectorizer": "vectorizer-1727624514123"
             }
         ],
         "vectorizers": [
             {
-                "name": "vectorizer-ally-legal",
+                "name": "vectorizer-1727624514123",
                 "kind": "azureOpenAI",
                 "azureOpenAIParameters": {
                     "resourceUri": "your-resource-uri",

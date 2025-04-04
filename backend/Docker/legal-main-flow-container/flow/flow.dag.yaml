@@ -9,7 +9,7 @@ inputs:
   question:
     type: string
     is_chat_input: true
-    default: What are the improvements I can make in this non-disclosure agreement?
+    default: Explain the services overview section to me and who is the client
   query_type:
     type: int
     default: 3
@@ -21,7 +21,7 @@ inputs:
     default: English
   filename:
     type: string
-    default: Non-Disclosure-Agreement-Template-Signaturely.docx
+    default: SoW-PAD-Governance-Definition-And-Amendments.docx
 outputs:
   answer:
     type: string
@@ -64,10 +64,10 @@ nodes:
     type: code
     path: search_policy.py
   inputs:
-    searchconnection: ally
     embeding: ${python_text_embedding_search.output}
     query: ${inputs.question}
     groups: ${inputs.group}
+    ally: ally
 - name: aggregation
   type: python
   source:
