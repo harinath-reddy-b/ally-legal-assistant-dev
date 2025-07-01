@@ -10,7 +10,7 @@ def list_policy_tool(query: str, embeding:list, searchconnection: CustomConnecti
     search_index = searchconnection.search_policy_index
     search_key = searchconnection.search_key    
     
-    vector_query = VectorizedQuery(king="vector", vector=embeding, k_nearest_neighbors=1, fields="embeding")     
+    vector_query = VectorizedQuery(king="vector", vector=embeding, k_nearest_neighbors=1, fields="embedding")     
 
     search_client = SearchClient(search_endpoint, search_index, AzureKeyCredential(search_key))
     #print the param groups type

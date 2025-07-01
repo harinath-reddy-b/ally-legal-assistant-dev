@@ -21,61 +21,27 @@ export async function summary() {
   contspinner.style.display = "block";  
   container.appendChild(contspinner);  
     
-  // Start Word run context  
-  return Word.run(async (context) => {  
+
+return Word.run(async (context) => {  
       try {  
         const selectedText = context.document.getSelection();
-        selectedText.load("text, paragraphs/items"); // Load the text and associated paragraphs
+        selectedText.load("text"); // Load the text and associated paragraphs
         await context.sync();
-    
-        const paragraphs = selectedText.paragraphs.items;
-    
-        console.log("Paragraphs:", paragraphs);
-    
-        let fullText = "";
+   
+        //const paragraphs = selectedText.paragraphs.items;
+   
+        const selectedtextdata = selectedText.text;
+        //console.log("Paragraphs:", paragraphs);
+ 
+        console.log("Selected text:", selectedtextdata);
+   
+       
 
-        // Load the text and listItem properties for each paragraph
-        paragraphs.forEach(paragraph => {
-            paragraph.load("text,");
-        })
-
-        await context.sync();
-
-        let indexs = [];
-        for (let i = 0; i < paragraphs.length; i++) {
-            // no text or has a spaces
-            if (paragraphs[i]._Te === "" || paragraphs[i]._Te === " " || paragraphs[i]._Te === "  " || paragraphs[i]._Te === "   ") {
-                indexs.push(i);
-            }
-        }
-
-        // remove the empty paragraphs but start from the end to avoid index issues
-        for (let i = indexs.length - 1; i >= 0; i--) {
-            paragraphs.splice(indexs[i], 1);
-        }
-               
-        await context.sync();
-
-        paragraphs.forEach((paragraph) => {
-            paragraph.load("listItem");
-            paragraph.load("text");
-        });
-    
-        await context.sync();
-    
-        // Process each paragraph
-        paragraphs.forEach((paragraph) => {
-            const listString = paragraph.listItem ? paragraph.listItem.listString : ""; // Retrieve list numbering if it exists
-            const text = paragraph.text; // Retrieve the paragraph text
-            fullText += listString + text + "\n"; // Append the text to the full text
-        });
-
-          // Check if the selected text is empty  
           if (!selectedText.text) {  
               displayNoTextSelectedMessage();  
           } else {  
             console.log("test");  
-            await processSelectedText(fullText, pfendpoint, language);  
+            await processSelectedText(selectedtextdata, pfendpoint, language);  
           }  
       } catch (error) {  
           console.error("Error: " + error);  
@@ -141,6 +107,7 @@ async function processSelectedText(text, endpoint, language) {
   });  
 
   const data = await response.json();  
+  console.log("Data", data)
   if (data.answer.warning) {  
       displayWarningMessage();  
   } else {  
