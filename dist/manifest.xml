@@ -6,17 +6,17 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="GBB Contract Review Tool"/>
   <Description DefaultValue="A template to get started."/>
-  <IconUrl DefaultValue="https://gbballytest2.azurewebsites.net/assets/icon-32.png"/>
-  <HighResolutionIconUrl DefaultValue="https://gbballytest2.azurewebsites.net/assets/icon-64.png"/>
-  <SupportUrl DefaultValue="https://gbballytest2.azurewebsites.net/help"/>
+  <IconUrl DefaultValue="https://ally-legal-assistant.azurewebsites.net/assets/icon-32.png"/>
+  <HighResolutionIconUrl DefaultValue="https://ally-legal-assistant.azurewebsites.net/assets/icon-64.png"/>
+  <SupportUrl DefaultValue="https://ally-legal-assistant.azurewebsites.net/help"/>
   <AppDomains>
-    <AppDomain>https://gbballytest2.azurewebsites.net</AppDomain>
+    <AppDomain>https://ally-legal-assistant.azurewebsites.net</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Document"/>
   </Hosts>
   <DefaultSettings>
-    <SourceLocation DefaultValue="https://gbballytest2.azurewebsites.net/taskpane.html"/>
+    <SourceLocation DefaultValue="https://ally-legal-assistant.azurewebsites.net/taskpane.html"/>
   </DefaultSettings>
   <Permissions>ReadWriteDocument</Permissions>
   <VersionOverrides xmlns="http://schemas.microsoft.com/office/taskpaneappversionoverrides" xsi:type="VersionOverridesV1_0">
@@ -78,15 +78,15 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="Icon.16x16" DefaultValue="https://gbballytest2.azurewebsites.net/assets/icon-16.png"/>
-        <bt:Image id="Icon.32x32" DefaultValue="https://gbballytest2.azurewebsites.net/assets/icon-32.png"/>
-        <bt:Image id="Icon.80x80" DefaultValue="https://gbballytest2.azurewebsites.net/assets/icon-80.png"/>
+        <bt:Image id="Icon.16x16" DefaultValue="https://ally-legal-assistant.azurewebsites.net/assets/icon-16.png"/>
+        <bt:Image id="Icon.32x32" DefaultValue="https://ally-legal-assistant.azurewebsites.net/assets/icon-32.png"/>
+        <bt:Image id="Icon.80x80" DefaultValue="https://ally-legal-assistant.azurewebsites.net/assets/icon-80.png"/>
       </bt:Images>
       <bt:Urls>
         <bt:Url id="GetStarted.LearnMoreUrl" DefaultValue="https://go.microsoft.com/fwlink/?LinkId=276812"/>
-        <bt:Url id="Commands.Url" DefaultValue="https://gbballytest2.azurewebsites.net/commands.html"/>
-        <bt:Url id="Taskpane.Url" DefaultValue="https://gbballytest2.azurewebsites.net/taskpane.html"/>
-        <bt:Url id="configpane.Url" DefaultValue="https://gbballytest2.azurewebsites.net/configpane.html"/>
+        <bt:Url id="Commands.Url" DefaultValue="https://ally-legal-assistant.azurewebsites.net/commands.html"/>
+        <bt:Url id="Taskpane.Url" DefaultValue="https://ally-legal-assistant.azurewebsites.net/taskpane.html"/>
+        <bt:Url id="configpane.Url" DefaultValue="https://ally-legal-assistant.azurewebsites.net/configpane.html"/>
 
       </bt:Urls>
       <bt:ShortStrings>
