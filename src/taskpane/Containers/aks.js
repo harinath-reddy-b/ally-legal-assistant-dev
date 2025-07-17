@@ -5,11 +5,13 @@ export async function ask() {
   const container = document.getElementById("ask-container");  
   const pfendpoint = localStorage.getItem('pfendpoint');
   const language = localStorage.getItem('language');
-
+  const filename = localStorage.getItem('filename');
+  
   console.log("Entered ask function with the next parameters: ");
   console.log("Endpoint: ", pfendpoint);
   console.log("Language: ", language);
-
+  console.log("Filename: ", filename);
+  
   // Validate input and handle errors  
   let query;  
   try {  
@@ -42,7 +44,7 @@ export async function ask() {
           // convert JSON.parse(localStorage.getItem('groups')) to string
           const groups = JSON.parse(localStorage.getItem('groups')).toString();
 
-          const response = await fetchData(pfendpoint, query, language, groups);  
+          const response = await fetchData(pfendpoint, query, language, filename, groups);
           console.log("Response: ", response);
           const data = await response.json();  
           displaySearchResults(data.answer);  
@@ -62,11 +64,12 @@ function createSpinner() {
 }  
 
 // Fetch data from API  
-async function fetchData(endpoint, query, language, groups) {  
+async function fetchData(endpoint, query, language, filename, groups) {   
   console.log("Entered fetchData function with the next parameters: ");
   console.log("Endpoint: ", endpoint);
   console.log("Query: ", query);
   console.log("Language: ", language);
+  console.log("Filename: ", filename);
   console.log("Groups: ", groups);
   console.log("Groups type: ", typeof(groups));
   
@@ -79,6 +82,7 @@ async function fetchData(endpoint, query, language, groups) {
           query_type: 3,
           question: query,  
           language: language,
+          filename: filename,
           groups: groups
       })  
   });  
