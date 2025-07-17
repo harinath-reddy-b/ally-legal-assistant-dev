@@ -16,7 +16,7 @@ inputs:
       submit to the jurisdiction of the courts of Singapore. "
   query_type:
     type: int
-    default: 2
+    default: 1
   group:
     type: list
     default:
@@ -96,6 +96,7 @@ nodes:
   inputs:
     input_text: ${inputs.question}
     ally: ally
+    filename: ${inputs.filename}
   activate:
     when: ${inputs.query_type}
     is: 1

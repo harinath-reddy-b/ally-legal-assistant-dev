@@ -2,3 +2,8 @@ node_modules
 doc
 files/*.ps1
 files/*.py
+dist/*
+manifest copy.xml
+webpack.config copy.js
+dist copy/*
+src/config/config copy.json

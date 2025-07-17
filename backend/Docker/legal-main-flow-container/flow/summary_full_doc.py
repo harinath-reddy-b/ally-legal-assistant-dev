@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from openai import AzureOpenAI
 from azure.search.documents import SearchClient
 from azure.core.credentials import AzureKeyCredential
-from typing import List  
+from typing import List, Optional   # import Optional
 import json
 import time
 import logging
@@ -16,52 +16,64 @@ class SummaryResponse(BaseModel):
         notes: str
         original_text: str
         keyItems: List[str]
+
     Summary: str
     KeyPoints: List[str]
-    Items: list[Item]
+    Items: List[Item]
 
 
 @tool
-def python_tool(input_text: str, ally:CustomConnection) -> object:
-    
+def python_tool(input_text: str, filename: str, ally: CustomConnection) -> List[dict]:
     search_endpoint = ally.search_endpoint
     search_index = ally.search_document_index
     search_key = ally.search_key
-    # use ai azure search to query 
 
     search_client = SearchClient(search_endpoint, search_index, AzureKeyCredential(search_key))
     results = search_client.search(
-        search_text="*",  # Use '*' to match all documents
+        search_text="*",
+        filter=f"filename eq '{filename}'",
         order_by=["ParagraphId"],
     )
-    list = []
+
+    out_list = []
     for result in results:
-        #title,paragraph,keyphrases,summary,isCompliant,CompliantCollection,NonCompliantCollection
-        # if is compliant false read the NonCompliantCollection list and run the get_policyinfo function
-        if result["isCompliant"] == False:
+        entry = {
+            "title": result.get("title"),
+            "summary": result.get("summary"),
+            "keyphrases": result.get("keyphrases", []),
+            "isCompliant": result.get("isCompliant", True),
+            "CompliantCollection": result.get("CompliantCollection", []),
+            "NonCompliantCollection": result.get("NonCompliantCollection", []),
+        }
+
+        if not entry["isCompliant"]:
             policylist = []
-            for policyid in result["NonCompliantCollection"]:
-                # log into promptflow a warning                
-                policy = get_policyinfo(policyid,ally)
+            for policyid in entry["NonCompliantCollection"]:
+                policy = get_policyinfo(policyid, ally)
+                if policy is None:
+                    logging.warning(f"No policy info found for ID {policyid}")
+                    continue
                 policylist.append(policy)
-            list.append({"title": result["title"], "summary": result["summary"], "keyphrases": result["keyphrases"], "summary": result["summary"], "isCompliant": result["isCompliant"], "CompliantCollection": result["CompliantCollection"], "NonCompliantCollection": result["NonCompliantCollection"], "NonCompliantPolicies": policylist})           
-        else:    
-            list.append({"title": result["title"], "summary": result["summary"], "keyphrases": result["keyphrases"], "summary": result["summary"], "isCompliant": result["isCompliant"], "CompliantCollection": result["CompliantCollection"], "NonCompliantCollection": result["NonCompliantCollection"]})
-    print(list)
-    return list
+            entry["NonCompliantPolicies"] = policylist
+
+        out_list.append(entry)
+
+    return out_list
 
 
-def get_policyinfo(policyid:int ,ally:CustomConnection):
+def get_policyinfo(policyid: int, ally: CustomConnection) -> Optional[dict]:
     search_endpoint = ally.search_endpoint
     search_index = ally.search_policy_index
     search_key = ally.search_key
-    # use ai azure search to query 
 
     search_client = SearchClient(search_endpoint, search_index, AzureKeyCredential(search_key))
     results = search_client.search(
-        filter=f"PolicyId eq {policyid}",
+        filter=f"PolicyId eq '{policyid}'",
         select="id,title,instruction,tags,severity"
     )
-    results_list = [result for result in results]
-    return results_list[0] if results_list else None
-     
+
+    results_list = [r for r in results]
+    if not results_list:
+        return None
+    # convert the first result (SearchDocument) into a plain dict
+    return dict(results_list[0])
