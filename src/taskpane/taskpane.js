@@ -7,7 +7,6 @@ import { summary } from './Containers/summary_selected.js';
 import { document_summary } from './Containers/summary_document.js';
 
 import { createNestablePublicClientApplication } from "@azure/msal-browser";
-// import { PublicClientApplication } from "@azure/msal-browser"      //Use this line instead of above line, if getting error: {"error":{"code":"UserError","message":"Failed to render jinja template. Please modify your prompt to fix the issue."}}
 
 let pca = undefined;
 
