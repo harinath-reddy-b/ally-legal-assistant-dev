@@ -59,8 +59,8 @@ def get_policyinfo(policyid:int ,ally:CustomConnection):
 
     search_client = SearchClient(search_endpoint, search_index, AzureKeyCredential(search_key))
     results = search_client.search(
-        filter = f"PolicyId eq '{PolicyId}'",
-        select = ["id", "title", "instruction", "tags", "severity"]
+        filter=f"PolicyId eq {policyid}",
+        select="id,title,instruction,tags,severity"
     )
     results_list = [result for result in results]
     return results_list[0] if results_list else None
